@@ -92,6 +92,10 @@ panel_iframe:
     icon: mdi:lightbulb-on
     url: https://home.piquette.fr/tasmoadmin
     #url: https://192.168.1.8:9541
+  phlex:
+    title: Phlex
+    icon: mdi:microphone
+    url: https://192.168.1.8:1778
 
 mqtt: !include mqtt.yaml
 
@@ -125,7 +129,7 @@ zone:
     latitude: 49.2731476
     longitude: 2.5039287
     radius: 200
-    icon: mdi:Briefcase
+    icon: mdi:briefcase
 
 google_assistant: !include conf_dir/google_assistant.yaml
   

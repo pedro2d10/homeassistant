@@ -81,8 +81,8 @@
   value_template: "{{ value_json.motion }}"
   
 - platform: seventeentrack
-  username: piquette.pi@gmail.com
-  password: 3hfQNi9q6toz
+  username: !secret seventrackuser
+  password: !secret seventrackpassword
 
 - platform: steam_online
   api_key: !secret steam_apikey
@@ -90,7 +90,7 @@
     -  !secret steam_account
 
 - platform: radarr_upcoming_media
-  api_key: !secret radatt_apikey
+  api_key: !secret radarr_apikey
   host: 192.168.1.111
   port: 7878
   days: 120
