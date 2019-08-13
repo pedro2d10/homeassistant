@@ -1,0 +1,58 @@
+esphome:
+  name: led
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: "ASUS"
+  password: "trucmachinchose"
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+
+light:
+  - platform: rgb
+    name: "bureau leds"
+    red: output_component1
+    green: output_component2
+    blue: output_component3
+
+# Example output entry
+output:
+  - platform: esp8266_pwm
+    id: output_component1
+    pin: D1
+  - platform: esp8266_pwm
+    id: output_component2
+    pin: D2
+  - platform: esp8266_pwm
+    id: output_component3
+    pin: D3
+
+sensor:
+  - platform: resistance
+    sensor: source_sensor
+    configuration: UPSTREAM
+    resistor: 50kOhm
+    name: Resistance Sensor
+    reference_voltage: 5V
+
+# Example source sensor:
+  - platform: adc
+    id: source_sensor
+    pin: A0
+
+    
+binary_sensor:
+  - platform: gpio
+    name: "Button1"
+    pin: D6
+  - platform: gpio
+    pin: D7
+    name: "PIR Sensor"
+    device_class: motion

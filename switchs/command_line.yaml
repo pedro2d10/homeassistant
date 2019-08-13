@@ -1,0 +1,7 @@
+- platform: command_line
+  switches:
+    openvpn:
+      command_on: 'sh /config/openvpn_restart.sh'
+      command_off: 'sh /config/openvpn_stop.sh'
+      command_state: 'sh /config/openvpn_isactive.sh'
+      value_template: '{{ value == "1" }}'

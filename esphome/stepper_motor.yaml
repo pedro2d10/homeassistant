@@ -1,0 +1,53 @@
+esphome:
+  name: stepper_motor
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: "ASUS"
+  password: "trucmachinchose"
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  services:
+    - service: control_stepper
+      variables:
+        target: int
+      then:
+        - stepper.set_target:
+            id: my_stepper
+            target: !lambda 'return target;'
+ota:
+
+stepper:
+  - platform: uln2003
+    id: my_stepper
+    pin_a: D0
+    pin_b: D1
+    pin_c: D2
+    pin_d: D3
+    max_speed: 250 steps/s
+
+    # Optional:
+    acceleration: inf
+    deceleration: inf
+    
+    
+on_...:
+  then:
+  - stepper.set_target:
+    id: my_stepper
+    target: 250
+
+  # Templated
+  - stepper.set_target:
+    id: my_stepper
+    target: !lambda |-
+      if (id(my_binary_sensor).state) {
+        return 1000;
+      } else {
+        return -1000;
+        }

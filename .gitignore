@@ -1,4 +1,4 @@
-*
+
 
 # You can whitelist files/folders with !, these will not be ignored.
 !*.yaml
@@ -12,6 +12,7 @@
 .vscode
 ssl
 tts
+custom_components
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 .google_maps_location_sharing.cookies.pedro2d10_gmail_com

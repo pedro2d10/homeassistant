@@ -1,0 +1,20 @@
+- platform: mqtt
+  name: "Entrance Light"
+  command_topic: "cmnd/Sonoff_Door/POWER"
+  state_topic: "stat/Sonoff_Door/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+  
+# - platform: mqtt
+#   schema: json
+#   name: "Strip Led"
+#   state_topic: "home/ESP_LED"
+#   command_topic: "home/ESP_LED/set"
+#   brightness: true
+#   rgb: true
+#   effect: true
+#   effect_list: [colorfade_slow, colorfade_fast, flash]
+#   optimistic: false
+#   qos: 0

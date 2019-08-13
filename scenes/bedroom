@@ -1,0 +1,12 @@
+ - name: Bedroom normal
+    entities:
+        light.chambre:
+            state: on
+            transition: 2
+            brightness_pct: 100
+  - name: Bedroom dim
+    entities:
+        light.chambre:
+            state: on
+            transition: 2
+            brightness_pct: 30

@@ -1,0 +1,7 @@
+  base_url: https://home.piquette.fr
+  ssl_certificate: /config/ssl/fullchain.pem
+  ssl_key: /config/ssl/privkey.pem
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.0.0.1
+    - 192.168.1.111

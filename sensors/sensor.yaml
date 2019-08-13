@@ -1,0 +1,154 @@
+#####################################################################
+#                                                                   #
+#                 METEO                                             #
+#                                                                   #
+#####################################################################
+
+
+- platform: darksky
+  api_key: !secret darksky_api
+  name: DarkSky
+  monitored_conditions:
+    - temperature
+    - cloud_cover
+    - humidity
+    - pressure
+    - temperature_high
+    - temperature_low
+
+#####################################################################
+#                                                                   #
+#                 HASS Monitor                                      #
+#                                                                   #
+#####################################################################
+
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /config
+    - type: memory_use_percent
+    - type: load_1m
+    - type: network_in
+      arg: eno1
+    - type: network_out
+      arg: eno1
+    - type: processor_use
+    - type: last_boot
+
+- platform: cert_expiry
+  host: home.piquette.fr
+
+#####################################################################
+#                                                                   #
+#                 PLEX                                              #
+#                                                                   #
+#####################################################################
+
+- platform: tautulli
+  api_key: !secret tautulli_apikey
+  host: 192.168.1.111
+  path: /plexpy
+  monitored_users:
+    - pedro2d10
+  monitored_conditions:
+      - stream_count
+      - stream_count_transcode
+      - stream_count_direct_play
+      - stream_count_direct_stream
+      - total_bandwidth
+
+- platform: mqtt
+  name: PlexMediaType
+  state_topic: plexpy/state/home
+  value_template: '{{value_json.subject}}'
+
+
+- platform: mqtt
+  name: PlexPlayStatus
+  state_topic: plexpy/state/home
+  value_template: '{{value_json.body}}'
+
+#####################################################################
+#                                                                   #
+#                 MQTT DEVICES                                      #
+#                                                                   #
+#####################################################################
+  
+- platform: mqtt
+  name: "Motion Led"
+  state_topic: "home/ESP_LED"
+  value_template: "{{ value_json.motion }}"
+  
+- platform: seventeentrack
+  username: piquette.pi@gmail.com
+  password: 3hfQNi9q6toz
+
+- platform: steam_online
+  api_key: !secret steam_apikey
+  accounts:
+    -  !secret steam_account
+
+- platform: radarr_upcoming_media
+  api_key: !secret radatt_apikey
+  host: 192.168.1.111
+  port: 7878
+  days: 120
+  ssl: false
+  max: 10
+  urlbase: /radarr
+  
+
+- platform: pi_hole
+  host: 192.168.1.8:4865
+  ssl: true
+  verify_ssl: false
+  monitored_conditions:
+    - ads_blocked_today
+    - dns_queries_today
+    - unique_clients
+
+- platform: plex_recently_added
+  token: !secret plex_token
+  server_name: Plexus
+  # host: 192.168.1.111
+  # port: 32400
+  ssl: true
+  ssl_cert: false
+  download_images: false
+  max: 5
+  section_types:
+    - Films
+
+- platform: synologydsm
+  host: 192.168.1.3
+  username: !secret syno_user
+  password: !secret syno_password
+  ssl: false
+  port: 5000
+  monitored_conditions:
+    - cpu_total_load
+    - memory_real_usage
+    - network_up
+    - disk_smart_status
+    - disk_status
+    - volume_status
+    - volume_percentage_used
+    - volume_disk_temp_avg
+    
+#   - platform: suez_water
+#     username: !secret suez_username
+#     password: !secret suez_password
+#     counter_id: !secret suez_compteur
+
+
+- platform: mqtt
+  name: Bureau Bridge state
+  state_topic: "zigbee2mqtt2/bridge/state"
+  icon: mdi:router-wireless
+
+- platform: mqtt
+  name: Salon Bridge state
+  state_topic: "zigbee2mqtt/bridge/state"
+  icon: mdi:router-wireless
+  #scan_interval: 20

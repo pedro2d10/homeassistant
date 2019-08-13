@@ -1,0 +1,369 @@
+#####################################################################
+#                                                                   #
+#                 Changement de la lumiere pour Plex                #
+#                                                                   #
+#####################################################################
+
+- alias: "Media player stopped"
+  trigger:
+    - platform: state
+      entity_id: sensor.PlexPlayStatus
+      to: 'stop'
+    - platform: state
+      entity_id: sensor.PlexMediaType
+      to: 'BRAVIA 4K 2015'
+  condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: sun.sun
+          #state: above_horizon
+          state: 'below_horizon'
+        - condition: state
+          entity_id: sensor.PlexMediaType
+          state: 'BRAVIA 4K 2015'
+  action:
+      #service: light.turn_on
+      #entity_id: light.hue_white_lamp_1
+      service: scene.turn_on
+      entity_id: scene.Bedroom_normal
+
+- alias: "Media player playing"
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.PlexPlayStatus') in ['play','resume'] }}"
+    - platform: state
+      entity_id: sensor.PlexMediaType
+      to: 'BRAVIA 4K 2015'
+  condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: sun.sun
+          #state: above_horizon
+          state: 'below_horizon'
+        - condition: state
+          entity_id: sensor.PlexMediaType
+          state: 'BRAVIA 4K 2015'
+          
+  action:
+      #service: light.turn_off
+      #entity_id: light.hue_white_lamp_1
+      service: scene.turn_on
+      entity_id: scene.Bedroom_off
+      
+- alias: "Media player pause"
+  trigger:
+    - platform: state
+      entity_id: sensor.PlexPlayStatus
+      to: 'pause'
+    - platform: state
+      entity_id: sensor.PlexMediaType
+      to: 'BRAVIA 4K 2015'
+  condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: sun.sun
+          #state: above_horizon
+          state: 'below_horizon'
+        - condition: state
+          entity_id: sensor.PlexMediaType
+          state: 'BRAVIA 4K 2015'
+  action:
+      #service: light.turn_on
+      #entity_id: light.hue_white_lamp_1
+      service: scene.turn_on
+      entity_id: scene.Bedroom_dim
+
+#####################################################################
+#                                                                   #
+#                 Changement de la variable pour la porte ouverte   #
+#                                                                   #
+#####################################################################
+
+# Update Last Motion variable
+- alias: "Update Last Open Door"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.contactlivingroomdoor_contact
+    to: 'on'
+  action:
+    - service: variable.set_variable
+      data:
+        variable: last_motion
+        attributes_template: >
+          {
+            "history_1": "{{ variable.state }}",
+            "history_2": "{{ variable.attributes.history_1 }}",
+            "history_3": "{{ variable.attributes.history_2 }}"
+          }
+      data_template:
+        value: "{{as_timestamp(states.variable.last_motion.last_changed)| timestamp_custom('%X') }}"
+
+#####################################################################
+#                                                                   #
+#                 Strip Led                                         #
+#                                                                   #
+#####################################################################
+
+- alias: "Bureau pierre"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.button1
+    to: 'on'
+  action:
+    service: light.toggle
+    entity_id: light.bureau_leds
+
+#####################################################################
+#                                                                   #
+#                 Allumer  la lumiere du bureau                     #
+#                 Lors d'un mouvement                               #
+#                                                                   #
+#####################################################################
+
+- alias: Turn on desk light when there is movement
+  trigger:
+      platform: state
+      entity_id: binary_sensor.pir_sensor_2
+      to: 'on'
+  action:
+      service: light.turn_on
+      entity_id: light.hue_white_lamp_1
+
+- alias: Turn off desk light 1 minutes after last movement
+  trigger:
+      platform: state
+      entity_id: binary_sensor.pir_sensor_2
+      to: 'off'
+      for:
+          minutes: 1
+  action:
+      service: light.turn_off
+      entity_id: light.hue_white_lamp_1
+
+#####################################################################
+#                                                                   #
+#                 Gestion de la poubelle                            #
+#                                                                   #
+#####################################################################
+
+- alias: Poubelle a sortir
+  trigger:
+      platform: state
+      entity_id: sensor.livingroomswitch_click
+      to: 'right_double'
+  action:
+      service: input_boolean.turn_on
+      entity_id: input_boolean.poubelle_boulean
+      
+- alias: Prevenir de sortir la Poubelle
+  trigger:
+      platform: state
+      entity_id: binary_sensor.contactlivingroomdoor_contact
+      to: 'on'
+  condition:
+      condition: state
+      entity_id: input_boolean.poubelle_boulean
+      state: 'on'
+  action:
+  - service: notify.telegram_notif
+    data_template:
+        #title: '*Une poubellle à Sortir*'
+        message: 
+          "Hey Coco!! 
+
+          Tu as une *poubelle* à sortir"
+        data:
+          inline_keyboard:
+              - 'Ok c''est fait:/poubelleok'
+              - 'Mince j''ai oublié:/nopoubelle'
+  - service: homeassistant.turn_on
+    entity_id: script.flash_room1     
+  - service: timer.start
+    data:
+      entity_id: timer.flash
+    
+    
+- alias: 'flash_room1_stop'
+  trigger:
+    platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.flash
+  action:
+    service: homeassistant.turn_off
+    entity_id: 
+      - script.flash_room1
+      - script.flash_loop
+              
+- alias: 'Reponse des poubelles OK'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+        data: '/poubelleok'
+  action:
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: 'Merci l''ami'
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.poubelle_boulean
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+    
+    
+- alias: 'Reponse des poubelles NOK'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+        data: '/nopoubelle'
+  action:
+  - service: telegram_bot.answer_callback_query
+    data_template:
+      callback_query_id: '{{ trigger.event.data.id }}'
+      message: 'Ok je te le rappelerais à la prochaine sortie'
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.poubelle_boulean
+  - service: telegram_bot.edit_replymarkup
+    data_template:
+      message_id: '{{ trigger.event.data.message.message_id }}'
+      chat_id: '{{ trigger.event.data.user_id }}'
+      inline_keyboard: []
+            
+- alias: 'Telegram bot that reply pong to ping'
+  hide_entity: true
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: '/ping'
+  action:
+    - service: notify.telegram_notif
+      data:
+        message: 'pong'
+        
+- alias: reponse au interrupteurs du salon
+  trigger:
+    platform: state
+    entity_id:
+      - sensor.doorswitch_click
+      - sensor.livingroomswitch_click
+    to: 'right'
+  action:
+    entity_id: light.salon
+    service: light.toggle
+        
+- alias: reponse au interrupteurs de l'entree
+  trigger:
+    platform: state
+    entity_id:
+      - sensor.doorswitch_click
+      - sensor.livingroomswitch_click
+    to: 'left'
+  action:
+    entity_id: light.entrance_light
+    service: light.toggle
+      
+- alias: allumer l'entree quand la porte est ouverte
+  trigger:
+    platform: state
+    entity_id: binary_sensor.contactlivingroomdoor_contact
+    to: 'on'
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.entrance_light
+    
+- alias: eteindre l'entree au bout d'1 minute
+  trigger:
+    platform: state
+    entity_id: binary_sensor.contactlivingroomdoor_contact
+    to: 'off'
+    for:
+      minutes: 1
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.entrance_light
+
+- alias: Cube event flip180
+  trigger:
+    platform: event
+    event_type: xiaomi_aqara.cube_action
+    event_data:
+      entity_id: sensor.0x00158d00029bd159_action
+      action_type: flip180
+  action:
+    - service: light.turn_on
+      entity_id: light.bureau_leds
+      data:
+        color_name: "darkviolet"
+
+- id: enable_zigbee_join
+  alias: Enable Zigbee joining
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: input_boolean.zigbee_permit_join
+    to: 'on'
+  action:
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'true'
+  - service: timer.start
+    data:
+      entity_id: timer.zigbee_permit_join
+
+- id: disable_zigbee_join
+  alias: Disable Zigbee joining
+  trigger:
+  - entity_id: input_boolean.zigbee_permit_join
+    platform: state
+    to: 'off'
+  action:
+  - data:
+      payload: 'false'
+      topic: zigbee2mqtt/bridge/config/permit_join
+    service: mqtt.publish
+  - data:
+      entity_id: timer.zigbee_permit_join
+    service: timer.cancel
+  hide_entity: true
+
+- id: disable_zigbee_join_timer
+  alias: Disable Zigbee joining by timer
+  hide_entity: true
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.zigbee_permit_join
+  action:
+  - service: mqtt.publish
+    data:
+      topic: zigbee2mqtt/bridge/config/permit_join
+      payload: 'false'
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.zigbee_permit_join
+        
+
+- alias: Write Stepper Value to ESP
+  trigger:
+    platform: state
+    entity_id: input_number.stepper_control
+  action:
+    # Replace livingroom with the name you gave the ESP
+    - service: esphome.stepper_motor
+      data_template:
+        target: '{{ trigger.to_state.state | int }}'

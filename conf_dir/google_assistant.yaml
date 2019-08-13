@@ -1,0 +1,18 @@
+  project_id: hassio-3d775
+#  exposed_domains:
+#    - switch
+#    - light
+#    - sensor
+  entity_config:
+    light.hue_white_lamp_1:
+      name: Bureau
+      aliases:
+        - BRIGHT_LIGHTS
+        - ENTRY_LIGHTS
+    light.living_room_lights:
+      expose: false
+      room: LIVING_ROOM
+    group.all_automations:
+      expose: false
+    sensor.livingroomairsensor_temperature:
+      name: temperature salon

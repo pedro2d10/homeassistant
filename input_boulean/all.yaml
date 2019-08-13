@@ -1,0 +1,8 @@
+  poubelle_boulean:
+    name: Poubelle
+    initial: off
+    icon: mdi:trash-can
+  zigbee_permit_join:
+    name: Allow devices to join
+    initial: off
+    icon: mdi:cellphone-wireless
