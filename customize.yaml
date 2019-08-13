@@ -1,0 +1,27 @@
+sensor.darksky_cloud_coverage:
+  friendly_name: Couverture nuageuse
+sensor.darksky_daytime_high_temperature:
+  friendly_name: Haute journée
+sensor.darksky_humidity:
+  friendly_name: Humidité
+sensor.darksky_overnight_low_temperature:
+  friendly_name: Basse journée
+sensor.darksky_pressure:
+  friendly_name: Pression
+sensor.darksky_temperature:
+  friendly_name: Température
+person.pierre:
+  entity_picture: /local/pierre-192x192.jpg
+light.hue_white_lamp_1:
+  friendly_name: Bureau Lumiere Plafond
+light.hue_color_lamp_3:
+  friendly_name: Chambre Lumiere Plafond
+light.hue_color_lamp_1:
+  friendly_name: Salon Lumiere Plafond
+light.hue_color_lamp_2:
+  friendly_name: Salon Repas Lumiere Plafond
+sensor.livingroomairsensor_humidity:
+  friendly_name: Salon Humidité
+sensor.seventeentrack_packages_in_transit:
+  friendly_name: Colis en transit
+  icon: mdi:truck

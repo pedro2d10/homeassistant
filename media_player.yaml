@@ -1,0 +1,33 @@
+  - platform: plex
+    show_all_controls: true
+    use_episode_art: true
+    remove_unavailable_clients: false
+  #  client_remove_interval: 600
+
+  # - platform: braviatv
+  #   host: 192.168.1.45
+
+  - platform: spotify
+    client_id: !secret spotify_id
+    client_secret: !secret spotify_secret 
+
+  - platform: pioneer
+    host: 192.168.1.9
+    port: 8102
+
+  - platform: xboxone
+    device: !secret xboxdevice
+    name: Living Room Xbox One
+
+  - platform: samsungtv
+    host: 192.168.1.11
+    
+  - platform: androidtv
+    name: Sony TV
+    host: 192.168.1.45
+    adb_server_ip: 127.0.0.1
+    apps:
+      "com.plexapp.android": "Plex"
+      "amazon": "Amazon Prime Video"
+      "com.google.android.youtube.tv" : "Youtube"
+      "com.valvesoftware.steamlink" : "Steam"

@@ -1,0 +1,13 @@
+  openvpn_stoped:
+    name: OpenVpn is stopped
+    done_message: OpenVpn is Working
+    entity_id: switch.openvpn
+    state: 'off'
+    repeat: 
+      - 5
+      - 60
+      - 120
+      - 360
+    can_acknowledge: true
+    notifiers:
+      - telegram_notif
