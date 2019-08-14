@@ -1,6 +1,12 @@
-# Welcome !
+<p>
+  <img src="https://img.shields.io/github/stars/pedro2d10/homeassistant.svg?style=plasticr"/>
+</p>
+
+# Welcome to Piana Home !
 
 This is my Home Assistant installation.
+
+I take a lot inspiration from <a href="https://github.com/JamesMcCarthy79/Home-Assistant-Config"> James Mc Carthy</a>
 
 ## Some statistics about my installation:
 
