@@ -1,2 +1,2 @@
 #!/bin/sh
-ssh -t pierre@192.168.1.111 "sudo systemctl restart openvpn@openvpn.service"
+ssh -t -F /config/ssh_config -i /config/id_dsa pierre@192.168.1.111 "sudo systemctl restart openvpn@openvpn.service"

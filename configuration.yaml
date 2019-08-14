@@ -69,6 +69,8 @@ automation: !include_dir_merge_list automation/
 
 script: !include_dir_merge_list scripts/
 
+speedtestdotnet: !include conf_dir/speedtest.yaml
+
 timer:
   flash:
     duration: '00:00:05'
@@ -95,7 +97,7 @@ panel_iframe:
   phlex:
     title: Phlex
     icon: mdi:microphone
-    url: https://192.168.1.8:1778
+    url: https://home.piquette.fr:1778
 
 mqtt: !include mqtt.yaml
 

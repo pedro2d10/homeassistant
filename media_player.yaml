@@ -22,12 +22,20 @@
   - platform: samsungtv
     host: 192.168.1.11
     
-  - platform: androidtv
-    name: Sony TV
+  - platform: braviatv_psk
     host: 192.168.1.45
-    adb_server_ip: 127.0.0.1
-    apps:
-      "com.plexapp.android": "Plex"
-      "amazon": "Amazon Prime Video"
-      "com.google.android.youtube.tv" : "Youtube"
-      "com.valvesoftware.steamlink" : "Steam"
+    psk: sony
+    mac: 68:14:01:3b:7c:33
+    amp: False
+    android: True
+    name: MyBraviaTV
+    
+  # - platform: androidtv
+  #   name: Sony TV
+  #   host: 192.168.1.45
+  #   adb_server_ip: 127.0.0.1
+  #   apps:
+  #     "com.plexapp.android": "Plex"
+  #     "amazon": "Amazon Prime Video"
+  #     "com.google.android.youtube.tv" : "Youtube"
+  #     "com.valvesoftware.steamlink" : "Steam"
