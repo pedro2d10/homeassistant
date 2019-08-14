@@ -13,6 +13,8 @@
 ssl
 tts
 custom_components
+templates
+
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 .google_maps_location_sharing.cookies.pedro2d10_gmail_com
@@ -26,3 +28,4 @@ id_dsa
 id_dsa.pub
 id_rsa
 plex.conf
+lovelace-save.yaml

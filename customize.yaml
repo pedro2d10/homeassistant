@@ -25,5 +25,4 @@ sensor.livingroomairsensor_humidity:
 sensor.seventeentrack_packages_in_transit:
   friendly_name: Colis en transit
   icon: mdi:truck
-sensor.last_boot:
-  unit_of_measurement: hours
+sensor.last_boot: {}

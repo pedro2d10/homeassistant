@@ -1,0 +1,540 @@
+title: Piana Home
+
+ch:
+  '0':
+    clock_date: false
+    clock_format: 24
+    options: clock
+  clock_am_pm: false
+  clock_format: '24'
+  options: clock
+
+resources:
+  - type: module
+    url: /community_plugin/mini-graph-card/mini-graph-card.js
+  - type: module
+    url: /community_plugin/button-card/button-card.js
+  - type: js
+    url: /community_plugin/upcoming-media-card/upcoming-media-card.js
+  - type: module
+    url: /community_plugin/compact-custom-header/compact-custom-header.js
+  - type: module
+    url: /community_plugin/mini-media-player/mini-media-player.js
+  - type: js
+    url: /community_plugin/lovelace-fold-entity-row/fold-entity-row.js
+  - type: js
+    url: /community_plugin/monster-card/monster-card.js
+  - type: module
+    url: /community_plugin/lovelace-card-mod/card-mod.js
+  - type: js
+    url: /community_plugin/bar-card/bar-card.js
+  - type: js
+    url: /community_plugin/vertical-stack-in-card/vertical-stack-in-card.js
+  - url: /local/custom_ui/dark-sky-weather-card.js?v=7.1
+    type: module
+  - url: /community_plugin/circle-sensor-card/circle-sensor-card.js
+    type: module
+  - url: /community_plugin/gauge-card/gauge-card.js
+    type: module
+
+#############################################################################################################################################
+#                                                                                                                                           # 
+#                                                               VIEW 0 - HOME                                                               #
+#                                                                                                                                           #
+#############################################################################################################################################
+
+
+views:
+  - background: var(--background-image)
+    badges:
+      - person.pierre
+      - sun.sun
+    
+    icon: 'mdi:castle'
+    path: default_view
+    title: Piana Home
+    cards:
+
+#################################################################
+#                                                               #
+#                    HOME - Meteo                               #
+#                                                               #
+################################################################# 
+
+      - type: 'custom:dark-sky-weather-card'
+        entity_current_conditions: sensor.darksky_icon
+        entity_temperature: sensor.darksky_temperature
+        entity_forecast_high_temp_1: sensor.darksky_daytime_high_temperature_1d
+        entity_forecast_high_temp_2: sensor.darksky_daytime_high_temperature_2d
+        entity_forecast_high_temp_3: sensor.darksky_daytime_high_temperature_3d
+        entity_forecast_high_temp_4: sensor.darksky_daytime_high_temperature_4d
+        entity_forecast_high_temp_5: sensor.darksky_daytime_high_temperature_5d
+        entity_forecast_icon_1: sensor.darksky_icon_1d
+        entity_forecast_icon_2: sensor.darksky_icon_2d
+        entity_forecast_icon_3: sensor.darksky_icon_3d
+        entity_forecast_icon_4: sensor.darksky_icon_4d
+        entity_forecast_icon_5: sensor.darksky_icon_5d
+        entity_forecast_low_temp_1: sensor.darksky_overnight_low_temperature_0d
+        entity_forecast_low_temp_2: sensor.darksky_overnight_low_temperature_1d
+        entity_forecast_low_temp_3: sensor.darksky_overnight_low_temperature_2d
+        entity_forecast_low_temp_4: sensor.darksky_overnight_low_temperature_3d
+        entity_forecast_low_temp_5: sensor.darksky_overnight_low_temperature_4d
+        entity_summary_1: sensor.darksky_summary_1d
+        entity_summary_2: sensor.darksky_summary_2d
+        entity_summary_3: sensor.darksky_summary_3d
+        entity_summary_4: sensor.darksky_summary_4d
+        entity_summary_5: sensor.darksky_summary_5d
+        entity_sun: sun.sun
+        entity_visibility: sensor.darksky_visibility
+        entity_daytime_high: sensor.darksky_daytime_high_temperature_0d
+        entity_wind_bearing: sensor.darksky_wind_bearing
+        entity_wind_speed: sensor.darksky_wind_speed
+        entity_humidity: sensor.darksky_humidity
+        entity_pressure: sensor.darksky_pressure
+        entity_apparent_temp: sensor.darksky_apparent_temperature
+        entity_daily_summary: sensor.darksky_daily_summary
+        entity_pop: sensor.darksky_precip_probability
+        entity_pop_intensity: sensor.darksky_precip_intensity
+        entity_pop_1: sensor.darksky_precip_probability_1d
+        entity_pop_2: sensor.darksky_precip_probability_2d
+        entity_pop_3: sensor.darksky_precip_probability_3d
+        entity_pop_4: sensor.darksky_precip_probability_4d
+        entity_pop_5: sensor.darksky_precip_probability_5d
+
+#################################################################
+#                                                               #
+#                    HOME - Waze                                #
+#                                                               #
+################################################################# 
+
+      - type: entities
+        title: Waze
+        show_header_toggle: false
+        entities:
+          - entity: sensor.waze_travel_time
+            name: Temps pour aller au travail
+
+#################################################################
+#                                                               #
+#                    HOME - Capteurs du Salon                   #
+#                                                               #
+################################################################# 
+
+      - cards:
+          - entities:
+              - sensor.livingroomairsensor_temperature
+            font_size: 75
+            line_color: var(--accent-color)
+            line_width: 8
+            type: 'custom:mini-graph-card'
+          - entities:
+              - sensor.livingroomairsensor_humidity
+            font_size: 75
+            line_color: blue
+            line_width: 8
+            type: 'custom:mini-graph-card'
+        type: horizontal-stack
+
+#################################################################
+#                                                               #
+#                    HOME - 7Track                              #
+#                                                               #
+################################################################# 
+
+      - card:
+          type: entities
+        filter:
+          include:
+            - entity_id: sensor.seventeentrack_packages_in_transit
+            - entity_id: sensor.seventeentrack_package_*
+        type: 'custom:monster-card'
+
+#################################################################
+#                                                               #
+#                    HOME - Lights CARD                         #
+#                                                               #
+################################################################# 
+
+      - entities:
+          - group_config:
+              secondary_info: last-changed
+            head: group.desk
+            type: 'custom:fold-entity-row'
+          - group_config:
+              secondary_info: last-changed
+            head: group.salon
+            type: 'custom:fold-entity-row'
+          - group_config:
+              secondary_info: last-changed
+            head: group.bedroom
+            type: 'custom:fold-entity-row'
+          - entity: light.entrance_light
+        title: Lumière
+        type: entities
+    
+
+
+
+#############################################################################################################################################
+#                                                                                                                                           # 
+#                                                             VIEW 1 - MEDIA                                                                #
+#                                                                                                                                           #
+############################################################################################################################################# 
+
+
+  - background: var(--background-image)
+    badges: []
+    icon: 'mdi:television-classic'
+    title: Media
+    cards:
+
+#################################################################
+#                                                               #
+#                    MEDIA - Spotify                            #
+#                                                               #
+################################################################# 
+
+      - artwork: cover
+        entity: media_player.spotify
+        hide:
+          volume: true
+        shortcuts:
+          buttons:
+            - icon: 'mdi:cat'
+              id: script.spotify_salon
+              type: script
+            - icon: 'mdi:dog'
+              id: Marshall_salon
+              type: source
+            - icon: 'mdi:dog'
+              id: script.script_name
+              type: script
+          columns: 4
+        source: media_player.salon
+        type: 'custom:mini-media-player'
+
+#################################################################
+#                                                               #
+#                    MEDIA - BedRoom Plex                       #
+#                                                               #
+################################################################# 
+
+      - artwork: cover
+        entity: media_player.bravia_4k_2015
+        hide:
+          power_state: false
+          source: false
+          volume: true
+        shortcuts:
+          buttons:
+            - icon: 'mdi:plex'
+              id: script.start_plex
+              type: script
+            - icon: 'mdi:youtube'
+              id: script.start_youtube
+              type: script
+            - icon: 'mdi:home'
+              id: script.tv_home
+              type: script
+          columns: 4
+        type: 'custom:mini-media-player'
+
+#################################################################
+#                                                               #
+#                    MEDIA - Bravia TV                          #
+#                                                               #
+################################################################# 
+
+
+      - entity: media_player.mybraviatv
+        type: media-control
+    
+  
+  
+#############################################################################################################################################
+#                                                                                                                                           # 
+#                                                             VIEW 2 - SYSTEM                                                               #
+#                                                                                                                                           #
+############################################################################################################################################# 
+
+  
+  
+  
+  - background: var(--background-image)
+    badges: []
+    icon: 'mdi:settings-outline'
+    title: Systeme
+    cards:
+
+#################################################################
+#                                                               #
+#                    SYSTEM - Speedtest                         #
+#                                                               #
+################################################################# 
+      - type: vertical-stack
+        cards:
+
+
+        - cards:
+            - color_thresholds:
+                - color: '#FFFF00'
+                  value: 25
+                - color: '#3498db'
+                  value: 0
+              entities:
+                - sensor.speedtest_ping
+              font_size: 70
+              height: 20
+              hours_to_show: 168
+              line_width: 2
+              points_per_hour: 1
+              show:
+                fill: true
+                graph: bar
+              type: 'custom:mini-graph-card'
+            - cards:
+                - color_thresholds:
+                    - color: '#FFFF00'
+                      value: 0
+                    - color: '#3498db'
+                      value: 40
+                  entities:
+                    - sensor.speedtest_download
+                  font_size: 70
+                  height: 50
+                  hours_to_show: 168
+                  line_width: 2
+                  points_per_hour: 1
+                  show:
+                    extrema: true
+                    fill: true
+                  type: 'custom:mini-graph-card'
+                - color_thresholds:
+                    - color: '#FFFF00'
+                      value: 0
+                    - color: '#3498db'
+                      value: 13
+                  entities:
+                    - sensor.speedtest_upload
+                  font_size: 70
+                  height: 50
+                  hours_to_show: 168
+                  line_width: 2
+                  points_per_hour: 1
+                  show:
+                    extrema: true
+                    fill: true
+                  type: 'custom:mini-graph-card'
+              type: horizontal-stack
+          type: vertical-stack
+
+
+#################################################################
+#                                                               #
+#                    SYSTEM - NAS                               #
+#                                                               #
+################################################################# 
+        - type: vertical-stack
+          cards:
+          - type: entities
+            entities:
+            - type: section
+              label: NAS Synology
+            - type: 'custom:vertical-stack-in-card'
+              cards:
+              - type: custom:gauge-card
+                title: Nas Volume
+                entity: sensor.synology_dsm_volume_used_volume_1
+                severity:
+                  red: 90
+                  green: 0
+                  amber: 80
+              - type: horizontal-stack
+                cards:
+                  - type: custom:bar-card
+                    align: split
+                    entities: 
+                      - entity: sensor.synology_dsm_cpu_load_total
+                        title: CPU
+                      - entity: sensor.synology_dsm_memory_usage_real
+                        title: RAM
+                    card_style:
+                      border-radius: 5px
+                    columns: 2                
+                    padding: 4px
+                    show_icon: true
+
+#################################################################
+#                                                               #
+#                    SYSTEM - Xiaomi Batteries                  #
+#                                                               #
+################################################################# 
+      - type: vertical-stack
+        cards:
+
+
+        - cards:
+            - entities:
+                - entity: sensor.contactlivingroomdoor_battery
+                  name: Capteur d'entrée
+                - entity: sensor.doorswitch_battery
+                  name: Interrupteur Entrée
+                - entity: sensor.livingroomairsensor_battery
+                  name: Capteur température Salon
+                - entity: sensor.livingroomswitch_battery
+                  name: Intrrupteur Salon
+              show_header_toggle: false
+              title: Batteries
+              type: entities
+          type: vertical-stack
+
+#################################################################
+#                                                               #
+#                    SYSTEM - Services Status Button            #
+#                                                               #
+################################################################# 
+      
+        - cards:
+            - color_type: icon
+              entity: sensor.hacs
+              layout: icon_name_state
+              show_state: true
+              state:
+                - color: green
+                  value: '0'
+                - color: red
+                  operator: default
+              styles:
+                card:
+                  - height: 80px
+              type: 'custom:button-card'
+            - entity: sensor.ssl_certificate_expiry
+              layout: icon_name_state
+              name: SSL certificat expire
+              show_state: true
+              state:
+                - color: green
+                  operator: '>'
+                  value: 1
+                - color: red
+                  operator: default
+              styles:
+                card:
+                  - height: 80px
+              type: 'custom:button-card'
+            - entity: switch.openvpn
+              icon: 'mdi:vpn'
+              layout: icon_name_state
+              name: Openvpn Status
+              show_state: true
+              state:
+                - color: green
+                  value: 'on'
+                - color: red
+                  operator: default
+              styles:
+                card:
+                  - height: 80px
+              tap_action:
+                action: toggle
+              type: 'custom:button-card'
+          type: vertical-stack
+
+#################################################################
+#                                                               #
+#                    SYSTEM - Automations groups list           #
+#                                                               #
+################################################################# 
+
+        - entities:
+            - head: group.all_automations
+              title: Automatisations
+              type: 'custom:fold-entity-row'
+          type: entities
+
+#################################################################
+#                                                               #
+#                    SYSTEM - Zigbee2Mqtt                       #
+#                                                               #
+################################################################# 
+
+      - type: vertical-stack
+        cards:
+
+        - entities:
+            - entity: input_boolean.zigbee_permit_join
+            - entity: timer.zigbee_permit_join
+            - entity: sensor.bureau_bridge_state
+            - entity: sensor.salon_bridge_state
+          show_header_toggle: false
+          title: Zigbee
+          type: entities
+
+#################################################################
+#                                                               #
+#                    SYSTEM - Hassio Server                     #
+#                                                               #
+################################################################# 
+
+
+        - type: vertical-stack 
+          cards:
+            - type: entities
+              entities:
+              - type: section
+                label: HASSIO SERVER
+              - type: 'custom:vertical-stack-in-card'
+                cards:
+                  - type: horizontal-stack
+                    cards:
+                      - type: picture
+                        image: /local/lovelace/lenovo2.jpg
+                        style:
+                          border-radius: 5px
+                          transform: 'translate(-50%, -50%) scale(3.5, 3.5)'
+                      - type: 'custom:bar-card'
+                        align: center
+                        card_style:
+                          border-radius: 5px
+                        entity: sensor.last_boot_templated
+                        format: datetime
+                        #ax: 60
+                        padding: 5px
+                        title: Restart Time
+                        title_position: inside
+                      - type: 'custom:bar-card'
+                        align: center
+                        card_style:
+                          border-radius: 5px
+                        entity: sensor.time_online
+                        max: 168
+                        padding: 5px
+                        title: Up Time this Week
+                        title_position: inside
+                  - align: split
+                    card_style:
+                      border-radius: 5px
+                    columns: 2
+                    entities:
+                      - entity: sensor.disk_use_percent_config
+                        title: Disk
+                      - entity: sensor.memory_use_percent
+                        title: RAM
+                    padding: 4px
+                    show_icon: true
+                    type: 'custom:bar-card'
+                  - align: split
+                    card_style:
+                      border-radius: 5px
+                    columns: 2
+                    entities:
+                      - entity: sensor.processor_use
+                        title: CPU
+                      - entity: sensor.cpu_temperature
+                        icon: 'mdi:thermometer'
+                        title: Temp
+                    padding: 4px
+                    show_icon: true
+                    type: 'custom:bar-card'  
+                  
+        

@@ -8,13 +8,38 @@
 - platform: darksky
   api_key: !secret darksky_api
   name: DarkSky
+  forecast:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
   monitored_conditions:
-    - temperature
-    - cloud_cover
+    - icon
+    - summary
+    - nearest_storm_distance
+    - nearest_storm_bearing
     - humidity
-    - pressure
+    - temperature
     - temperature_high
     - temperature_low
+    - apparent_temperature
+    - apparent_temperature_high
+    - apparent_temperature_low
+    - wind_speed
+    - wind_bearing
+    - precip_type
+    - precip_probability
+    - precip_accumulation
+    - precip_intensity
+    - precip_intensity_max
+    - uv_index
+    - daily_summary
+    - pressure
+    - visibility
+  scan_interval:
+    minutes: 5
 
 #####################################################################
 #                                                                   #
@@ -162,3 +187,16 @@
   state_topic: "zigbee2mqtt/bridge/state"
   icon: mdi:router-wireless
   #scan_interval: 20
+
+- platform: template
+  sensors: 
+    last_boot_templated:
+      value_template: "{{ states.sensor.last_boot.state.split('-')[-1] }}/{{ states.sensor.last_boot.state.split('-')[1] }}/{{ states.sensor.last_boot.state.split('-')[0] }}"
+      friendly_name: 'Last Boot'
+      icon_template: 'mdi:clock'
+
+
+- platform: waze_travel_time
+  origin: 6 avenue de l'europe, 60200 Compiègne, France
+  destination: rue jacques taffanel, 60550 verneuil-en-halatte, France
+  region: 'EU'

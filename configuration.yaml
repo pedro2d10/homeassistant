@@ -25,6 +25,9 @@ default_config:
 # http:
 #   base_url: example.duckdns.org:8123
 
+lovelace:
+  mode: yaml
+
 frontend:
   themes: !include_dir_merge_named themes/
   
@@ -100,6 +103,8 @@ panel_iframe:
     url: https://home.piquette.fr:1778
 
 mqtt: !include mqtt.yaml
+
+readme:
 
 recorder:
   db_url: !secret db_mysql

@@ -1,2 +1,11 @@
 - platform: google_maps
   username: !secret google_user
+
+- platform: ping
+  hosts:
+    hostone: 192.168.1.115
+
+- platform: iphonedetect
+  consider_home: 60
+  hosts:
+    hostname1: 192.168.1.115
