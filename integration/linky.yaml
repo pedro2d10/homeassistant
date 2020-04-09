@@ -1,0 +1,3 @@
+linky:
+  username: !secret linky_username
+  password: !secret linky_password

@@ -1,0 +1,20 @@
+input_select:
+  zigbee2mqtt_log_level:
+    name: Zigbee2mqtt Log Level
+    options:
+      - debug
+      - info
+      - warn
+      - error
+    initial: info
+    icon: mdi:format-list-bulleted
+
+  lightalarm_options:
+    name: Alarm Mode
+    initial: Workdays When Present
+    options:
+      - Off
+      - Workdays When Present
+      - Workdays
+      - Once Only
+      - Every Day

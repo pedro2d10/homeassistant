@@ -1,0 +1,4 @@
+glances:
+  host: localhost
+  port: 61209
+  version: 3

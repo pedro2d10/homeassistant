@@ -1,0 +1,4 @@
+notify:
+  - name: telegram_notif
+    platform: telegram
+    chat_id: 350720595

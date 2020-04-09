@@ -1,0 +1,83 @@
+'1581625570875':
+  alias: Run playlist
+  sequence:
+  - data:
+      media_content_id: spotify:playlist:1hxFXJUVfTO3Kie5Dy5ovB
+      media_content_type: playlist
+    entity_id: media_player.spotify_pierre_piquette
+    service: media_player.play_media
+'1581627676101':
+  alias: default light Hue salon
+  sequence:
+  - data:
+      rgb_color:
+      - 255
+      - 226
+      - 145
+    entity_id: light.salon
+    service: light.turn_on
+'1581889546066':
+  alias: Play fire on salon TV
+  sequence:
+  - data:
+      media_content_id: https://www.youtube.com/watch?v=L_LUpnjgPso&t=168s
+      media_content_type: video
+    entity_id: media_player.salon_2
+    service: media_extractor.play_media
+  - entity_id: media_player.pioneer_avr
+    service: media_player.turn_on
+  - delay: 00:00:05
+  - data:
+      source: VIDEO 1(VIDEO)
+    entity_id: media_player.pioneer_avr
+    service: media_player.select_source
+'1581890518438':
+  alias: Stop fire on salon tv
+  sequence:
+  - entity_id: media_player.salon_2
+    service: media_player.turn_off
+  - entity_id: media_player.pioneer_avr
+    service: media_player.turn_off
+  - entity_id: media_player.samsung_samsung_dtv_rcr
+    service: media_player.turn_off
+'1581971625864':
+  alias: Trigger the lightalarm
+  sequence:
+  - data_template:
+      brightness: 255
+      entity_id: light.hue_color_bedroom_light
+      rgb_color:
+      - 255
+      - 206
+      - 121
+      transition: '{{ states(''input_number.lightalarm_duration'') | float | multiply(60)
+        }}'
+    service: light.turn_on
+  - event: lightalarm_triggered
+    event_data: {}
+  - condition: state
+    entity_id: input_select.lightalarm_options
+    state: Once Only
+  - data:
+      option: 'Off'
+    entity_id: input_select.lightalarm_options
+    service: input_select.select_option
+  - delay: '{{ states(input_number.lightalarm_duration) | float | multiply(60) }}'
+  - entity_id: script.1581977644431
+    service: script.turn_on
+'1581977644431':
+  alias: Play spotify on chambre tv
+  sequence:
+  - data:
+      source: Chambre
+    entity_id: media_player.spotify_pierre_piquette
+    service: media_player.select_source
+  - data:
+      volume_level: 0.03
+    entity_id: media_player.spotify_pierre_piquette
+    service: media_player.volume_set
+  - data:
+      media_content_id: spotify:playlist:37i9dQZF1DX0UrRvztWcAU
+      media_content_type: playlist
+    entity_id: media_player.spotify_pierre_piquette
+    service: media_player.play_media

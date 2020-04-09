@@ -1,4 +1,5 @@
   project_id: hassio-3d775
+  api_key: !secret google_apikey_assist
 #  exposed_domains:
 #    - switch
 #    - light

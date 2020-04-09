@@ -1,0 +1,9 @@
+bright,0.457,0.408,254
+background,0.457,0.408,150
+dimmed,0.457,0.408,77
+nightlight,0.509,0.411,1
+brightness_only,0,0,150
+nightlight_only,0,0,1
+light.hue_white_lamp_1_light.default,0.457,0.408,254
+light.hue_color_bedroom_light.default,0.457,0.408,254
+light.salon.default,0.457,0.408,254

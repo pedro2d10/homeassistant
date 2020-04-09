@@ -1,5 +1,5 @@
 - platform: mqtt
-  name: "Entrance Light"
+  name: "Entrée"
   command_topic: "cmnd/Sonoff_Door/POWER"
   state_topic: "stat/Sonoff_Door/POWER"
   qos: 1
@@ -18,3 +18,20 @@
 #   effect_list: [colorfade_slow, colorfade_fast, flash]
 #   optimistic: false
 #   qos: 0
+
+- platform: group
+  name: salon
+  entities:
+    - light.hue_color_lamp_1
+    - light.hue_color_lamp_2
+
+- platform: group
+  name: chambre
+  entities:
+    - light.hue_color_bedroom_light
+
+- platform: group
+  name: bureau
+  entities:
+    - light.hue_white_lamp_1_light
+    - light.bureau_leds

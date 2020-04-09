@@ -1,5 +1,6 @@
 sunset:
   background-image: "radial-gradient(at 50% 50%, rgb(244, 67, 54) 0%, rgb(11, 49, 97) 100%)"
+  ha-card-border-radius: "20px"
 
   # Main colors
   primary-color: "#e14b4c" # Header

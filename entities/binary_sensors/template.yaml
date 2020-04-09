@@ -1,0 +1,12 @@
+platform: template
+sensors:
+  door_motion_meta:
+    friendly_name: "Porte Ouverte"
+    device_class: door
+    value_template: >-
+      {%- if is_state("binary_sensor.contactlivingroomdoor_contact", "on")
+        -%}
+      True
+      {%- else -%}
+      False
+      {%- endif %}

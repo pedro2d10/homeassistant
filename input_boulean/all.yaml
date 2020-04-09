@@ -6,3 +6,10 @@
     name: Allow devices to join
     initial: off
     icon: mdi:cellphone-wireless
+  zigbee2_permit_join:
+    name: Allow devices to join
+    initial: off
+    icon: mdi:cellphone-wireless
+  flash_boolean:
+    name: desk_flash
+    initial: off

@@ -1,0 +1,7 @@
+server_mounthly:
+  source: sensor.servers_watts
+  cycle: monthly
+server_daily:
+  source: sensor.servers_watts
+  cycle: daily
+  

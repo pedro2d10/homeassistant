@@ -1,0 +1,2 @@
+var webhook_trigger_update_url = 'https://home.piquette.fr/api/webhook/3e689aadf6066e83bfbbeef27a1044efbfe2c0a362ee5e5cacce4bda08988128';
+var webhook_check_update_url = 'https://home.piquette.fr/api/webhook/b7a6a687e2b431b1bade4a236980f4b3e1dc2cafeb51257b1d9cd36b460c360e';

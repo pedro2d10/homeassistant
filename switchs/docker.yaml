@@ -1,0 +1,36 @@
+- platform: rest
+  name: Transmission
+  resource: http://192.168.1.5:8126/container/transmission
+  body_on: '{"state": "start"}'
+  body_off: '{"state": "stop"}'
+  is_on_template: '{{ value_json is not none and value_json.state=="running" }}'
+
+- platform: rest
+  name: Docker Jackett
+  resource: http://192.168.1.5:8126/container/jackett
+  body_on: '{"state": "start"}'
+  body_off: '{"state": "stop"}'
+  is_on_template: '{{ value_json is not none and value_json.state=="running" }}'
+
+- platform: rest
+  name: Docker Medusa
+  #icon: /local/tabs/medusa.png
+  resource: http://192.168.1.5:8126/container/medusa
+  body_on: '{"state": "start"}'
+  body_off: '{"state": "stop"}'
+  is_on_template: '{{ value_json is not none and value_json.state=="running" }}'
+
+- platform: rest
+  name: Docker Radarr
+  resource: http://192.168.1.5:8126/container/radarr
+  body_on: '{"state": "start"}'
+  body_off: '{"state": "stop"}'
+  is_on_template: '{{ value_json is not none and value_json.state=="running" }}'
+
+
+- platform: rest
+  name: Docker Ombi
+  resource: http://192.168.1.5:8126/container/ombi
+  body_on: '{"state": "start"}'
+  body_off: '{"state": "stop"}'
+  is_on_template: '{{ value_json is not none and value_json.state=="running" }}'

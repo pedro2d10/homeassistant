@@ -1,0 +1,63 @@
+- platform: mqtt
+  state_topic: "tele/sonoff_heater/SENSOR"
+  name: 'Reactive Power Tank'
+  unit_of_measurement: 'VA'
+  value_template: "{{ value_json.ENERGY.ReactivePower }}"
+
+- platform: mqtt
+  state_topic: "tele/sonoff_heater/SENSOR"
+  name: 'Today Power Tank'
+  unit_of_measurement: 'kWh'
+  value_template: "{{ value_json.ENERGY.Today }}"
+
+- platform: mqtt
+  state_topic: "tele/sonoff_heater/SENSOR"
+  name: 'Yesterday Power Tank'
+  unit_of_measurement: 'kWh'
+  value_template: "{{ value_json.ENERGY.Yesterday }}"
+
+- platform: mqtt
+  state_topic: "tele/sonoff_heater/SENSOR"
+  name: 'Current Power Tank'
+  unit_of_measurement: 'W'
+  value_template: "{{ value_json.ENERGY.Power }}"
+
+- platform: mqtt
+  state_topic: "tele/sonoff_heater/SENSOR"
+  name: 'Tank Courrant'
+  unit_of_measurement: 'A'
+  value_template: "{{ value_json.ENERGY.Current }}"
+
+- platform: mqtt
+  state_topic: "tele/sonoff_heater/SENSOR"
+  name: 'Tank Voltage'
+  unit_of_measurement: 'V'
+  value_template: "{{ value_json.ENERGY.Voltage }}"
+ 
+
+# Sensor for monitoring the bridge state
+- platform: mqtt
+  name: Zigbee2mqtt Bridge state
+  state_topic: "zigbee2mqtt/bridge/state"
+  icon: mdi:router-wireless
+# Sensor for Showing the Zigbee2mqtt Version
+- platform: mqtt
+  name: Zigbee2mqtt Version
+  state_topic: "zigbee2mqtt/bridge/config"
+  value_template: "{{ value_json.version }}"
+  icon: mdi:zigbee
+# Sensor for Showing the Coordinator Version
+- platform: mqtt
+  name: Coordinator Version
+  state_topic: "zigbee2mqtt/bridge/config"
+  value_template: "{{ value_json.coordinator }}"
+  icon: mdi:chip
+
+- platform: mqtt
+  name: Zigbee2mqtt Networkmap
+  # if you change base_topic of Zigbee2mqtt, change state_topic accordingly
+  state_topic: zigbee2mqtt/bridge/networkmap/raw
+  value_template: >-
+    {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
+  # again, if you change base_topic of Zigbee2mqtt, change json_attributes_topic accordingly
+  json_attributes_topic: zigbee2mqtt/bridge/networkmap/raw

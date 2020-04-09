@@ -4,14 +4,14 @@ flash_room1:
     - alias: Light Room1 On
       service: light.turn_on
       data:
-        entity_id: light.entrance_light
+        entity_id: light.entree
     - delay:
         # time for flash light on
         seconds: 0.5
     - alias: Light Room1 Off
       service: light.turn_off
       data:
-        entity_id: light.entrance_light
+        entity_id: light.entree
     - alias: loop_room1
       service: homeassistant.turn_on
       data:
@@ -52,6 +52,13 @@ start_steam:
     data:
       entity_id: media_player.sony_tv
       command: "am start -a android.intent.action.VIEW -d -n com.valvesoftware.steamlink/.SteamShellActivity"
+
+start_kodi:
+  sequence:
+  - service: androidtv.adb_command
+    data:
+      entity_id: media_player.sony_tv
+      command: "am start -a android.intent.action.VIEW -d -n org.xbmc.kodi/.Splash"
 
 
 
@@ -97,3 +104,23 @@ spotify_salon:
 #       entity_id: sensor.openvpn_isactive
 #       state: 'active'
 #     - service: shell_command.stop_openvpn
+
+zigbee2mqtt_rename:
+  alias: Zigbee2mqtt Rename
+  sequence:
+    service: mqtt.publish
+    data_template:
+      topic: zigbee2mqtt/bridge/config/rename
+      payload_template: >-
+        {
+          "old": "{{ states.input_text.zigbee2mqtt_old_name.state | string }}",
+          "new": "{{ states.input_text.zigbee2mqtt_new_name.state | string }}"
+        }
+        
+zigbee2mqtt_remove:
+  alias: Zigbee2mqtt Remove
+  sequence:
+    service: mqtt.publish
+    data_template:
+      topic: zigbee2mqtt/bridge/config/remove
+      payload_template: "{{ states.input_text.zigbee2mqtt_remove.state | string }}"

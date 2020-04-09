@@ -1,0 +1,10 @@
+panel_iframe:
+  tasmoadmin:
+    title: TasmoAdmin
+    icon: mdi:lightbulb-on
+    url: https://home.piquette.fr/tasmoadmin
+    #url: https://192.168.1.8:9541
+  networkmap:
+    title: "Zigbee Map"
+    url: "/local/community/zigbee2mqtt_networkmap/map.html"
+    icon: "mdi:graphql"

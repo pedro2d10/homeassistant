@@ -1,0 +1,5 @@
+browser_mod:
+  prefix: "browser_"
+  devices:
+    7ec8d451-c08b1511:
+      name: shadow_pc

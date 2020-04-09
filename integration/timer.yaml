@@ -1,0 +1,6 @@
+timer:
+  flash:
+    duration: "00:00:05"
+  zigbee_permit_join:
+    name: Time remaining
+    duration: 600

@@ -22,6 +22,28 @@ api:
             target: !lambda 'return target;'
 ota:
 
+
+cover:
+  - platform: template
+    name: "test rideau"
+    id: rideau
+    open_action:
+
+      - stepper.set_target:
+          id: my_stepper
+          target: 0 
+    close_action:
+
+      - stepper.set_target:
+          id: my_stepper
+          target: 25000
+    stop_action:
+
+      - stepper.set_target:
+          id: my_stepper
+          target: !lambda return id(my_stepper).current_position;      
+    optimistic: true
+
 stepper:
   - platform: uln2003
     id: my_stepper
@@ -36,18 +58,18 @@ stepper:
     deceleration: inf
     
     
-on_...:
-  then:
-  - stepper.set_target:
-    id: my_stepper
-    target: 250
+#on_...:
+#  then:
+#  - stepper.set_target:
+#    id: my_stepper
+#    target: 250
 
   # Templated
-  - stepper.set_target:
-    id: my_stepper
-    target: !lambda |-
-      if (id(my_binary_sensor).state) {
-        return 1000;
-      } else {
-        return -1000;
-        }
+#  - stepper.set_target:
+#    id: my_stepper
+#    target: !lambda |-
+#      if (id(my_binary_sensor).state) {
+#        return 1000;
+#      } else {
+#        return -1000;
+#        }

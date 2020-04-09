@@ -17,25 +17,25 @@
         light.chambre:
             state: off
             
-  - name: Instant_Romantic
-    entities:
-        light.salon:
-            state: on
-            rgb_color: [255, 102, 255]
-            brightness: 200
-        media_player.Spotify:
-            source: Salon
-            media_content_id: 'spotify:user:spotify:playlist:7d2ncVpANcGJ4xk67bRE8O'
-            media_content_type: 'playlist'
-            volume_level: 0.3
+#   - name: Instant_Romantic
+#     entities:
+#         light.salon:
+#             state: on
+#             rgb_color: [255, 102, 255]
+#             brightness: 200
+#         media_player.Spotify:
+#             source: Salon
+#             media_content_id: 'spotify:user:spotify:playlist:7d2ncVpANcGJ4xk67bRE8O'
+#             media_content_type: 'playlist'
+#             volume_level: 0.3
             
-  - name: Stop_Romantic
-    entities:
-        light.salon:
-            state: on
-            brightness: 254
-            rgb_color: [255, 199, 116]
-        media_player.Spotify:
-            source: Salon
-            state: paused
+#   - name: Stop_Romantic
+#     entities:
+#         light.salon:
+#             state: on
+#             brightness: 254
+#             rgb_color: [255, 199, 116]
+#         media_player.Spotify:
+#             source: Salon
+#             state: paused
             

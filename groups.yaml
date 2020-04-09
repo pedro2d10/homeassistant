@@ -1,32 +1,20 @@
-
 Salon:
   icon: mdi:lightbulb-outline
   name: Salon
-  entities: 
+  entities:
     - light.hue_color_lamp_1
     - light.hue_color_lamp_2
-    
-    
+
 bedroom:
   icon: mdi:lightbulb-outline
   entities:
-    - light.hue_color_lamp_3
+    - light.hue_color_bedroom_light
 Desk:
   icon: mdi:lightbulb-outline
-  entities: 
-    - light.hue_white_lamp_1
-    - light.bureau_leds
-  
-darksky_group:
-  name: DarkSky
   entities:
-    - sensor.darksky_temperature
-    - sensor.darksky_humidity
-    - sensor.darksky_daytime_high_temperature
-    - sensor.darksky_overnight_low_temperature
-    - sensor.darksky_pressure
-    - sensor.darksky_cloud_coverage
-    
+    - light.hue_white_lamp_1_light
+    - light.bureau_leds
+
 host_system_group:
   name: Host System
   entities:
@@ -34,6 +22,6 @@ host_system_group:
     - sensor.last_boot
     - sensor.load_1m
     - sensor.memory_use_percent
-    - sensor.network_in_eth0
-    - sensor.network_out_eth0
+    - sensor.network_in_enp5s0
+    - sensor.network_out_enp5s0
     - sensor.processor_use

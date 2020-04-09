@@ -6,6 +6,10 @@ esphome:
 wifi:
   ssid: "ASUS"
   password: "trucmachinchose"
+  manual_ip:
+    static_ip: 192.168.1.27
+    gateway: 192.168.1.5
+    subnet: 255.255.255.0
 
 # Enable logging
 logger:
@@ -34,25 +38,9 @@ output:
     id: output_component3
     pin: D3
 
-sensor:
-  - platform: resistance
-    sensor: source_sensor
-    configuration: UPSTREAM
-    resistor: 50kOhm
-    name: Resistance Sensor
-    reference_voltage: 5V
 
-# Example source sensor:
-  - platform: adc
-    id: source_sensor
-    pin: A0
-
-    
 binary_sensor:
   - platform: gpio
     name: "Button1"
     pin: D6
-  - platform: gpio
-    pin: D7
-    name: "PIR Sensor"
-    device_class: motion
+

@@ -1,52 +1,50 @@
-#####################################################################
-#                                                                   #
-#                 METEO                                             #
-#                                                                   #
-#####################################################################
+# #####################################################################
+# #                                                                   #
+# #                 METEO                                             #
+# #                                                                   #
+# #####################################################################
 
-
-- platform: darksky
-  api_key: !secret darksky_api
-  name: DarkSky
-  forecast:
-    - 0
-    - 1
-    - 2
-    - 3
-    - 4
-    - 5
-  monitored_conditions:
-    - icon
-    - summary
-    - nearest_storm_distance
-    - nearest_storm_bearing
-    - humidity
-    - temperature
-    - temperature_high
-    - temperature_low
-    - apparent_temperature
-    - apparent_temperature_high
-    - apparent_temperature_low
-    - wind_speed
-    - wind_bearing
-    - precip_type
-    - precip_probability
-    - precip_accumulation
-    - precip_intensity
-    - precip_intensity_max
-    - uv_index
-    - daily_summary
-    - pressure
-    - visibility
-  scan_interval:
-    minutes: 5
+# - platform: darksky
+#   api_key: !secret darksky_api
+#   name: DarkSky
+#   forecast:
+#     - 0
+#     - 1
+#     - 2
+#     - 3
+#     - 4
+#     - 5
+#   monitored_conditions:
+#     - icon
+#     - summary
+#     - nearest_storm_distance
+#     - nearest_storm_bearing
+#     - humidity
+#     - temperature
+#     - temperature_high
+#     - temperature_low
+#     - apparent_temperature
+#     - apparent_temperature_high
+#     - apparent_temperature_low
+#     - wind_speed
+#     - wind_bearing
+#     - precip_type
+#     - precip_probability
+#     - precip_accumulation
+#     - precip_intensity
+#     - precip_intensity_max
+#     - uv_index
+#     - daily_summary
+#     - pressure
+#     - visibility
+#   scan_interval:
+#     minutes: 5
 
 #####################################################################
 #                                                                   #
 #                 HASS Monitor                                      #
 #                                                                   #
 #####################################################################
-
 
 - platform: systemmonitor
   resources:
@@ -55,20 +53,25 @@
     - type: memory_use_percent
     - type: load_1m
     - type: network_in
-      arg: eno1
+      arg: enp5s0
     - type: network_out
-      arg: eno1
+      arg: enp5s0
     - type: processor_use
     - type: last_boot
-  
+
 - platform: command_line
-  name: CPU Temperature
-  command: "cat /sys/class/thermal/thermal_zone1/temp"
+  name: Server Temp Core0
+  command: "/usr/bin/sensors | grep 'Core 0' | cut -c16-19"
   unit_of_measurement: "°C"
-  value_template: '{{ (value | multiply(0.001)) | round(1) }}'
-  
+
+# - platform: command_line
+#   name: CPU Temperature
+#   command: "cat /sys/class/thermal/thermal_zone1/temp"
+#   unit_of_measurement: "°C"
+#   value_template: '{{ (value | multiply(0.001)) | round(1) }}'
+
 - platform: uptime
-  name: Time Online
+  name: uptime
   unit_of_measurement: hours
 
 - platform: cert_expiry
@@ -82,39 +85,38 @@
 
 - platform: tautulli
   api_key: !secret tautulli_apikey
-  host: 192.168.1.111
-  path: /plexpy
+  host: 192.168.1.5
+  path: /tautulli
   monitored_users:
     - pedro2d10
   monitored_conditions:
-      - stream_count
-      - stream_count_transcode
-      - stream_count_direct_play
-      - stream_count_direct_stream
-      - total_bandwidth
+    - stream_count
+    - stream_count_transcode
+    - stream_count_direct_play
+    - stream_count_direct_stream
+    - total_bandwidth
 
 - platform: mqtt
   name: PlexMediaType
   state_topic: plexpy/state/home
-  value_template: '{{value_json.subject}}'
-
+  value_template: "{{value_json.subject}}"
 
 - platform: mqtt
   name: PlexPlayStatus
   state_topic: plexpy/state/home
-  value_template: '{{value_json.body}}'
+  value_template: "{{value_json.body}}"
 
 #####################################################################
 #                                                                   #
 #                 MQTT DEVICES                                      #
 #                                                                   #
 #####################################################################
-  
+
 - platform: mqtt
   name: "Motion Led"
   state_topic: "home/ESP_LED"
   value_template: "{{ value_json.motion }}"
-  
+
 - platform: seventeentrack
   username: !secret seventrackuser
   password: !secret seventrackpassword
@@ -122,81 +124,154 @@
 - platform: steam_online
   api_key: !secret steam_apikey
   accounts:
-    -  !secret steam_account
+    - !secret steam_account
 
 - platform: radarr_upcoming_media
   api_key: !secret radarr_apikey
-  host: 192.168.1.111
+  host: localhost
   port: 7878
   days: 120
   ssl: false
   max: 10
   urlbase: /radarr
-  
 
-- platform: pi_hole
-  host: 192.168.1.8:4865
-  ssl: true
-  verify_ssl: false
-  monitored_conditions:
-    - ads_blocked_today
-    - dns_queries_today
-    - unique_clients
+# - platform: pi_hole
+#   host: localhost:4865
+#   # ssl: true
+#   # verify_ssl: false
+#   monitored_conditions:
+#     - ads_blocked_today
+#     - dns_queries_today
+#     - unique_clients
 
 - platform: plex_recently_added
   token: !secret plex_token
-  server_name: Plexus
-  # host: 192.168.1.111
-  # port: 32400
-  ssl: true
-  ssl_cert: false
-  download_images: false
-  max: 5
-  section_types:
-    - Films
+  host: 192.168.1.5
+  port: 32400
 
-- platform: synologydsm
-  host: 192.168.1.3
-  username: !secret syno_user
-  password: !secret syno_password
-  ssl: false
-  port: 5000
-  monitored_conditions:
-    - cpu_total_load
-    - memory_real_usage
-    - network_up
-    - disk_smart_status
-    - disk_status
-    - volume_status
-    - volume_percentage_used
-    - volume_disk_temp_avg
-    
 #   - platform: suez_water
 #     username: !secret suez_username
 #     password: !secret suez_password
 #     counter_id: !secret suez_compteur
 
-
-- platform: mqtt
-  name: Bureau Bridge state
-  state_topic: "zigbee2mqtt2/bridge/state"
-  icon: mdi:router-wireless
-
-- platform: mqtt
-  name: Salon Bridge state
-  state_topic: "zigbee2mqtt/bridge/state"
-  icon: mdi:router-wireless
-  #scan_interval: 20
+# - platform: mqtt
+#   name: Salon Bridge state
+#   state_topic: "zigbee2mqtt/bridge/state"
+#   icon: mdi:router-wireless
+#   #scan_interval: 20
 
 - platform: template
-  sensors: 
+  sensors:
     last_boot_templated:
       value_template: "{{ states.sensor.last_boot.state.split('-')[-1] }}/{{ states.sensor.last_boot.state.split('-')[1] }}/{{ states.sensor.last_boot.state.split('-')[0] }}"
-      friendly_name: 'Last Boot'
-      icon_template: 'mdi:clock'
-
+      friendly_name: "Last Boot"
+      icon_template: "mdi:clock"
 
 - platform: waze_travel_time
   origin: 6 avenue de l'europe, 60200 Compiègne, France
   destination: rue jacques taffanel, 60550 verneuil-en-halatte, France
-  region: 'EU'
+  region: "EU"
+
+- platform: template
+  sensors:
+    stats_steam1:
+      value_template: "{{ states.sensor.steam_76561197988124363.attributes.game }}"
+
+    servers_amps:
+      value_template: '{{ states.switch.servers.attributes["current_a"] | replace(" A", "") | float }}'
+      unit_of_measurement: "A"
+    servers_watts:
+      value_template: '{{ states.switch.servers.attributes["current_power_w"] | replace(" W", "") | float }}'
+      unit_of_measurement: "W"
+    servers_kw:
+      value_template: '{{ states.switch.servers.attributes["total_energy_kwh"] | replace(" kW", "") | float }}'
+      unit_of_measurement: "kW"
+    servers_volts:
+      value_template: '{{ states.switch.servers.attributes["voltage"] | replace(" V", "") | float }}'
+      unit_of_measurement: "V"
+
+    since_last_boot_template:
+      friendly_name: "Uptime"
+      icon_template: mdi:home-assistant
+      value_template: >-
+        {% set uptime = states('sensor.uptime') | float(-1) %}
+        {% if uptime >= 0 %}
+          {% set time = (3600 * uptime) | int %}
+          {% set minutes = ((time % 3600) / 60) | int %}
+          {% set hours = ((time % 86400) / 3600) | int %}
+          {% set days = (time / 86400) | int %}
+          {% if time < 60 %}
+            {{ time }} seconds
+          {% else %}
+            {%- if days > 0 -%}
+              {%- if days == 1 -%}
+                1 day
+              {%- else -%}
+                {{ days }} days
+              {%- endif -%}
+            {%- endif -%}
+            {%- if hours > 0 and days < 7 -%}
+              {%- if days > 0 -%}
+                {{ ', ' }}
+              {%- endif -%}
+              {%- if hours == 1 -%}
+                1 hour
+              {%- else -%}
+                {{ hours }} hours
+              {%- endif -%}
+            {%- endif -%}
+            {%- if days == 0 and minutes > 0 -%}
+              {%- if hours > 0 -%}
+                {{ ', ' }}{{ minutes }} min
+              {%- else -%}
+                {%- if minutes == 1 -%}
+                  1 minute
+                {%- else -%}
+                  {{ minutes }} minutes
+                {%- endif -%}
+              {%- endif -%}
+            {%- endif -%}
+          {% endif %}
+        {% else %}
+          unknown
+        {% endif %}
+
+- platform: history_stats
+  name: Steam_witcher
+  entity_id: sensor.stats_steam1
+  state: "The Witcher 3: Wild Hunt"
+  type: time
+  start: "{{ 0 }}"
+  end: "{{ now() }}"
+
+- platform: time_date
+  display_options:
+    - "time"
+    - "date"
+    - "date_time"
+    - "date_time_utc"
+    - "date_time_iso"
+    - "time_date"
+    - "time_utc"
+    - "beat"
+
+# - platform: linky
+#   username: !secret linky_username
+#   password: !secret linky_password
+
+- platform: version
+  name: version_current
+
+- platform: command_line
+  name: docker_count
+  command: "docker ps -a|wc -l"
+
+# - platform: rest
+#   resource: http://192.168.1.8:8126/containers
+#   name: container
+
+- platform: rest
+  resource: http://192.168.1.5:8126/container/medusa
+  # icon: /local/tabs/medusa.png
+  name: Medusa status
+  value_template: "{{ value_json.status }}"

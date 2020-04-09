@@ -1,0 +1,11 @@
+zone:
+  - name: Travail
+    latitude: 49.2731476
+    longitude: 2.5039287
+    radius: 200
+    icon: mdi:briefcase
+
+  - name: Home
+    latitude: 49.405213
+    longitude: 2.806789
+    radius: 20

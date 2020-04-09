@@ -12,17 +12,34 @@ sensor.darksky_temperature:
   friendly_name: Température
 person.pierre:
   entity_picture: /local/pierre-192x192.jpg
-light.hue_white_lamp_1:
-  friendly_name: Bureau Lumiere Plafond
-light.hue_color_lamp_3:
-  friendly_name: Chambre Lumiere Plafond
+light.hue_white_lamp_1_light:
+  friendly_name: Bureau Plafonnier
+  icon: mdi:ceiling-light
+light.hue_color_bedroom_light:
+  friendly_name: Chambre Plafonnier
+  icon: mdi:ceiling-light
 light.hue_color_lamp_1:
-  friendly_name: Salon Lumiere Plafond
+  friendly_name: Salon Plafonnier
+  icon: mdi:ceiling-light
 light.hue_color_lamp_2:
-  friendly_name: Salon Repas Lumiere Plafond
+  friendly_name: Salon Repas Plafonnier
+  icon: mdi:ceiling-light
+light.bureau_leds:
+  friendly_name: Bureau Strip led
+  icon: mdi:led-strip-variant
+light.entree:
+  icon: mdi:ceiling-light
 sensor.livingroomairsensor_humidity:
   friendly_name: Salon Humidité
+sensor.livingroomairsensor_temperature:
+  friendly_name: Salon Température
 sensor.seventeentrack_packages_in_transit:
   friendly_name: Colis en transit
   icon: mdi:truck
 sensor.last_boot: {}
+switch.servers:
+  icon: mdi:power-socket-eu
+switch.docker_medusa:
+  icon: /local/tabs/medusa.png
+person.oxana:
+  entity_picture: /local/oxana_400x400.jpg

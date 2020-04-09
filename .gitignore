@@ -18,8 +18,12 @@ templates
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 .google_maps_location_sharing.cookies.pedro2d10_gmail_com
+.homekit.state
+.travis.yml
 .spotify-token-cache
 .xbox-token.json
+Hassio-9f080585575d.json
+bravia.conf
 home-assistant_v2.db
 home-assistant.log
 secrets.yaml
