@@ -16,6 +16,14 @@
       message: Le container Transmission s'est arrété
       title: Transmission
     service: notify.mobile_app_sm_g950f
+  - data:
+      data:
+        actions:
+        - action: restart_transmission
+          title: Restart docker transmission
+      message: Le container Transmission s'est arrété
+      title: Transmission
+    service: notify.mobile_app_iphone_de_pierre
 - id: '1576570247913'
   alias: Turn on Transmission during the night
   description: ''
@@ -147,25 +155,31 @@
   condition: []
   action:
   - data:
-      message: Utilisation du disque à 80%
+      message: Le disque est plein à {{ states('sensor.disk_use_percent_config') }}
+        %
+      title: Alerte Disque plein
     service: notify.mobile_app_sm_g950f
+  - data:
+      message: Le disque est plein à {{ states('sensor.disk_use_percent_config') }}
+        %
+      title: Alerte Disque plein
+    service: notify.mobile_app_iphone_de_pierre
 - id: '1581604798904'
   alias: Flash entrance
   description: ''
   trigger:
-  - entity_id: binary_sensor.door_motion_meta
+  - entity_id: binary_sensor.contactlivingroomdoor_contact
     from: 'off'
     platform: state
     to: 'on'
-  condition:
-  - condition: state
-    entity_id: input_boolean.poubelle_boulean
-    state: 'on'
+  condition: []
   action:
-  - data:
-      entity_id: light.entree
-      flash: short
+  - entity_id: light.hue_white_lamp_1_light
     service: light.turn_on
+  - delay: 00:00:02
+  - data: {}
+    entity_id: light.hue_white_lamp_1_light
+    service: light.turn_off
 - id: '1581626744205'
   alias: Run valentines day
   description: ''
@@ -252,3 +266,19 @@
   - data:
       message: Nouveau cas
     service: notify.mobile_app_sm_g950f
+- id: '1587584983056'
+  alias: Deactivate automation desk light
+  description: ''
+  trigger:
+  - entity_id: sensor.deskswitch_click
+    from: 'off'
+    platform: state
+    to: 'on'
+  - entity_id: sensor.hue_dimmer_switch_action
+    platform: state
+    to: '''on-press'''
+  condition: []
+  action:
+  - data: {}
+    entity_id: automation.bureau_eteindre_la_lumiere_quand_il_n_y_a_pas_de_mouvement
+    service: automation.turn_off

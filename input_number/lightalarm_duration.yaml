@@ -1,0 +1,7 @@
+lightalarm_duration:
+    name: Alarm Duration
+    unit_of_measurement: min
+    initial: 12
+    min: 0
+    max: 120
+    step: 1

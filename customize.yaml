@@ -43,3 +43,11 @@ switch.docker_medusa:
   icon: /local/tabs/medusa.png
 person.oxana:
   entity_picture: /local/oxana_400x400.jpg
+group.salon:
+  icon: mdi:ceiling-light
+light.salon:
+  icon: mdi:ceiling-light
+  friendly_name: Salon
+light.chambre:
+  icon: mdi:ceiling-light
+  friendly_name: Chambre

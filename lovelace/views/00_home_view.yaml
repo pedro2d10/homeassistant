@@ -1,0 +1,216 @@
+title: Home
+path: home
+
+cards:
+  - type: custom:state-switch
+    entity: user
+    states:
+      pierre:
+        type: custom:decluttering-card
+        template: welcome_header
+        variables:
+          - image: "/local/pierre-192x192.jpg"
+      Oxana:
+        type: custom:decluttering-card
+        template: welcome_header
+        variables:
+          - image: "/local/oxana_400x400.jpg"
+  - type: vertical-stack
+    cards:
+      - type: markdown
+        content: |
+          {% if now().month in (1,) %}
+          ## Le {{ now().day }} Janvier
+          {% elif now().month in (2,) %}
+          ## Le {{ now().day }} Février
+          {% elif now().month in (3,) %}
+          ## Le {{ now().day }} Mars
+          {% elif now().month in (4,) %}
+          ## Le {{ now().day }} Avril
+          {% elif now().month in (5,) %}
+          ## Le {{ now().day }} Mai
+          {% elif now().month in (6,) %}
+          ## Le {{ now().day }} Juin
+          {% elif now().month in (7,) %}
+          ## Le {{ now().day }} Juillet
+          {% elif now().month in (8,) %}
+          ## Le {{ now().day }} Aout
+          {% elif now().month in (9,) %}
+          ## Le {{ now().day }} Septembre
+          {% elif now().month in (10,) %}
+          ## Le {{ now().day }} Octobre
+          {% elif now().month in (11,) %}
+          ## Le {{ now().day }} Novembre
+          {% elif now().month in (12,) %}
+          ## Le {{ now().day }} Décembre
+          {% endif %}
+        style: |
+          ha-card {
+            margin: 12px 14px -5px 14px;
+            box-shadow: none;
+            background: none;
+          }
+          h2 {
+            font-size: 17px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }
+
+      - type: custom:state-switch
+        entity: weather.compiegne
+        default: default
+        states:
+          sunny:
+            type: custom:simple-weather-card
+            style: |
+              ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 15px 14px;
+                }
+            entity: weather.compiegne
+            name: "à la maison"
+            secondary_info: precipitation
+            tap_action:
+              action: more-info
+              cards:
+            backdrop:
+              day: "rgba(249, 233, 181)"
+              text: var(--app-header-text-color)
+              night: "rgba(76, 87, 110)"
+              fade: true
+          default:
+            type: custom:simple-weather-card
+            style: |
+              ha-card {
+                  box-shadow: var(--card-box-shadow);
+                  margin: 0px 14px 15px 14px;
+                }
+            entity: weather.compiegne
+            name: "à la maison"
+            secondary_info: precipitation
+            tap_action:
+              action: more-info
+              cards:
+            backdrop:
+              day: "rgba(159, 193, 249)"
+              text: var(--app-header-text-color)
+              night: "rgba(76, 87, 110)"
+              fade: true
+
+  - type: vertical-stack
+    cards:
+      - type: custom:decluttering-card
+        template: card_header
+        variables:
+          - content: "Nous"
+          - icon: mdi:cards-heart
+      - type: glance
+        style: |
+          ha-card {
+            --paper-card-background-color: var(--sidebar-background-color);
+            box-shadow: var(--card-box-shadow);
+            margin: 0px 14px 5px 14px;
+          }
+        entities:
+          - person.pierre
+          - person.oxana
+
+      - type: entity-filter
+        show_empty: false
+        entities:
+          - entity: light.salon
+            tap_action:
+              action: toggle
+          - entity: light.bureau
+            tap_action:
+              action: toggle
+          - entity: light.chambre
+            tap_action:
+              action: toggle
+          - entity: light.entree
+            tap_action:
+              action: toggle
+
+        state_filter:
+          - "on"
+        card:
+          type: glance
+          style: |
+            ha-card {
+              --paper-card-background-color: var(--sidebar-background-color);
+              box-shadow: var(--card-box-shadow);
+              margin: 0px 14px 5px 14px;
+            }
+          show_state: false
+
+  - type: vertical-stack
+    cards:
+      - type: custom:decluttering-card
+        template: card_header
+        variables:
+          - content: "Salon"
+          - icon: mdi:home-thermometer
+      - type: "custom:mini-graph-card"
+        icon: mdi:television-clean
+        style: |
+          ha-card {
+            --paper-card-background-color: var(--sidebar-background-color);
+            box-shadow: var(--card-box-shadow);
+            margin: 0px 2px 5px 14px;
+          }
+        align_header: left
+        align_icon: left
+        decimals: 1
+        hour24: true
+        points_per_hour: 1
+        entities:
+          - entity: sensor.livingroomairsensor_temperature
+          - entity: sensor.livingroomairsensor_humidity
+            show_state: true
+            show_graph: false
+        show:
+          fill: fade
+          extrema: true
+          name: false
+          icon: false
+  - type: vertical-stack
+    cards:
+      - type: custom:decluttering-card
+        template: card_header
+        variables:
+          - content: "Collecte des déchets"
+          - icon: mdi:trash-can
+      - type: entities
+        entities:
+          - entity: sensor.dechet_menage
+          - entity: sensor.dechets_recycles
+  - type: vertical-stack
+    cards:
+      - type: custom:decluttering-card
+        template: card_header
+        variables:
+          - content: "Lumières"
+          - icon: mdi:ceiling-light
+      - type: entities
+        entities:
+          - light.entree
+          - type: custom:slider-entity-row
+            entity: light.hue_white_lamp_1_light
+            hide_when_off: true
+            toggle: true
+          - type: custom:slider-entity-row
+            entity: light.salon
+            hide_when_off: true
+            toggle: true
+          - type: custom:slider-entity-row
+            entity: light.chambre
+            hide_when_off: true
+            toggle: true
+        show_header_toggle: false
+        style: |
+          ha-card {
+            --paper-card-background-color: var(--sidebar-background-color);
+            box-shadow: var(--card-box-shadow);
+            margin: 0px 14px 5px 14px;
+          }

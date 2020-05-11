@@ -1,0 +1,97 @@
+title: Maison
+icon: mdi:home
+path: house
+
+badges: []
+cards:
+  - type: custom:state-switch
+    entity: user
+    states:
+      pierre:
+        type: custom:decluttering-card
+        template: welcome_header
+        variables:
+          - image: "/local/pierre-192x192.jpg"
+      oxana:
+        type: custom:decluttering-card
+        template: welcome_header
+        variables:
+          - image: "/local/oxana_400x400.jpg"
+
+  - type: vertical-stack
+    cards:
+      - type: custom:decluttering-card
+        template: card_header
+        variables:
+          - content: "Eclairage intérieur"
+          - icon: mdi:lightbulb
+      - type: glance
+        style: |
+          ha-card {
+            --paper-card-background-color: var(--sidebar-background-color);
+            box-shadow: var(--card-box-shadow);
+            margin: 0px 14px 5px 14px;
+          }
+        entities:
+          - entity: light.entree
+            tap_action:
+              action: toggle
+          - entity: light.salon
+            tap_action:
+              action: toggle
+          - entity: light.hue_white_lamp_1_light
+            tap_action:
+              action: toggle
+          - entity: light.chambre
+            tap_action:
+              action: toggle
+        show_state: false
+
+  - type: vertical-stack
+    cards:
+      - type: custom:decluttering-card
+        template: card_header
+        variables:
+          - content: "Marshal"
+      - type: "custom:mini-media-player"
+        style: |
+          ha-card {
+            --paper-card-background-color: var(--sidebar-background-color);
+            box-shadow: var(--card-box-shadow);
+            margin: 0px 14px 5px 14px;
+          }
+        icon: mdi:speaker
+        entity: media_player.salon
+        artwork: cover
+        hide:
+          volume: true
+          source: true
+          power_state: false
+      - type: "custom:mini-media-player"
+        style: |
+          ha-card {
+            --paper-card-background-color: var(--sidebar-background-color);
+            box-shadow: var(--card-box-shadow);
+            margin: 0px 14px 5px 14px;
+          }
+        icon: mdi:speaker
+        entity: media_player.sony_tv
+        artwork: cover
+        hide:
+          volume: true
+          source: true
+          power_state: true
+      - type: "custom:mini-media-player"
+        style: |
+          ha-card {
+            --paper-card-background-color: var(--sidebar-background-color);
+            box-shadow: var(--card-box-shadow);
+            margin: 0px 14px 5px 14px;
+          }
+        icon: mdi:speaker
+        entity: media_player.mpd
+        artwork: cover
+        hide:
+          volume: true
+          source: true
+          power_state: false

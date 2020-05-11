@@ -1,0 +1,46 @@
+title: default_view
+icon: "mdi:home-assistant"
+
+badges: []
+
+cards:
+  - type: vertical-stack
+    cards:
+      - type: markdown
+        content: |
+          {% if now().month in (1,) %}
+          ## January {{ now().day }}
+          {% elif now().month in (2,) %}
+          ## February {{ now().day }}
+          {% elif now().month in (3,) %}
+          ## March {{ now().day }}
+          {% elif now().month in (4,) %}
+          ## April {{ now().day }}
+          {% elif now().month in (5,) %}
+          ## May {{ now().day }}
+          {% elif now().month in (6,) %}
+          ## June {{ now().day }}
+          {% elif now().month in (7,) %}
+          ## July {{ now().day }}
+          {% elif now().month in (8,) %}
+          ## August {{ now().day }}
+          {% elif now().month in (9,) %}
+          ## September {{ now().day }}
+          {% elif now().month in (10,) %}
+          ## October {{ now().day }}
+          {% elif now().month in (11,) %}
+          ## November {{ now().day }}
+          {% elif now().month in (12,) %}
+          ## December {{ now().day }}
+          {% endif %}
+        style: |
+          ha-card {
+            margin: 12px 14px -5px 14px;
+          }
+
+          h2 {
+            font-size: 18px;
+            font-weight: 400;
+            padding-left: 10px;
+            border-left: 3px solid rgba(81, 134, 236);
+          }

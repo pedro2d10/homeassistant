@@ -1,0 +1,8 @@
+alias: "[System] Theme Control: set night theme after sunset"
+trigger:
+  - platform: sun
+    event: sunset
+action:
+  - service: frontend.set_theme
+    data:
+      name: Google Dark Theme

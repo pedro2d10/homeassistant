@@ -1,0 +1,4 @@
+bedroom:
+  icon: mdi:lightbulb-outline
+  entities:
+    - light.hue_color_bedroom_light

@@ -1,0 +1,13 @@
+homekit:
+  auto_start: false
+  filter:
+    include_entities:
+      - light.entree
+      - light.bureau
+      - light.chambre
+      - light.salon
+      - sensor.livingroomairsensor_temperature
+      - media_player.sony_tv
+  entity_config:
+    sensor.livingroomairsensor_temperature:
+      linked_battery_sensor: sensor.livingroomairsensor_battery

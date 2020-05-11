@@ -1,0 +1,6 @@
+Salon:
+  icon: mdi:lightbulb-outline
+  name: Salon
+  entities:
+    - light.hue_color_lamp_1
+    - light.hue_color_lamp_2

@@ -1,0 +1,9 @@
+lightalarm_options:
+  name: Alarm Mode
+  initial: Workdays When Present
+  options:
+    - Off
+    - Workdays When Present
+    - Workdays
+    - Once Only
+    - Every Day

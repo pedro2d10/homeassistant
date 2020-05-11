@@ -6,7 +6,7 @@
   payload_on: "ON"
   payload_off: "OFF"
   retain: false
-  
+
 # - platform: mqtt
 #   schema: json
 #   name: "Strip Led"
@@ -34,4 +34,3 @@
   name: bureau
   entities:
     - light.hue_white_lamp_1_light
-    - light.bureau_leds

@@ -1,0 +1,58 @@
+alias: "[Appliances] Low battery alert"
+trigger:
+  - platform: time
+    at: "10:00:00"
+  - platform: time
+    at: "18:00:00"
+condition:
+  - condition: template
+    value_template: >
+      {% macro battery_level() %}
+      {%- set threshold = 15 -%}
+      {%- set domains = ['light', 'switch', 'sensor',  'binary_sensor', 'camera'] -%}
+      {%- for domain in domains -%}
+        {%- for item in states[domain] if ((item.attributes.battery is defined and item.attributes['battery'] | int < threshold) or item.attributes.battery is defined and (item.attributes['battery'] | lower == "low" or item.attributes['battery'] | lower == "unknown")) -%}
+          {{ item.attributes.friendly_name }}
+        {%- endfor -%}
+      {%- endfor -%}
+      {% endmacro %}
+      {{ battery_level() | trim != "" }}
+action:
+  - service: persistent_notification.create
+    data_template:
+      title: "Low Battery levels"
+      notification_id: low-battery-alert
+      message: >
+        {% macro battery_level() %}
+        {%- set threshold = 15 -%}
+        {%- set domains = ['light', 'switch', 'sensor',  'binary_sensor', 'camera'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] if ((item.attributes.battery is defined and item.attributes['battery'] | int < threshold) or item.attributes.battery is defined and (item.attributes['battery'] | lower == "low" or item.attributes['battery'] | lower == "unknown")) -%}
+            {{ item.attributes.friendly_name }}
+            {%- if item.attributes.battery is defined -%}
+              ({{ item.attributes.battery}}%)
+            {%- endif -%}
+            {%- if not loop.last -%}
+              {{', '}}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+        {% endmacro %}
+        Appareil avec batterie faible: {{ battery_level() }}
+  - service: notify.mobile_app_iphone_de_pierre
+    data_template:
+      title: "Pixy Home Warning"
+      message: >
+        {% macro battery_level() %}
+        {%- set threshold = 15 -%}
+        {%- set domains = ['light', 'switch', 'sensor',  'binary_sensor', 'camera'] -%}
+        {%- for domain in domains -%}
+          {%- for item in states[domain] if ((item.attributes.battery is defined and item.attributes['battery'] | int < threshold) or item.attributes.battery is defined and (item.attributes['battery'] | lower == "low" or item.attributes['battery'] | lower == "unknown")) -%}
+            {{ item.attributes.friendly_name }}
+            {%- if item.attributes.battery is defined -%}
+              ({{ item.attributes.battery}}%)
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endfor -%}
+        {% endmacro %}
+        Appareil avec une batterie faible: {{ battery_level() }}

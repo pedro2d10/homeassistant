@@ -1,0 +1,14 @@
+alias: "[Bureau] Allumer la lumiere en cas de mouvement"
+trigger:
+  - platform: state
+    entity_id: binary_sensor.bureau_pir
+    from: "off"
+    to: "on"
+condition:
+  - condition: numeric_state
+    entity_id: sensor.temt6000_illuminance
+    below: 180
+action:
+  - service: light.turn_on
+    data_template:
+      entity_id: light.hue_white_lamp_1_light

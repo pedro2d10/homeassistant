@@ -1,0 +1,12 @@
+alias: "[Bureau] Eteindre la lumiere quand il n'y a pas de mouvement"
+trigger:
+  - platform: state
+    entity_id: binary_sensor.bureau_pir
+    from: "on"
+    to: "off"
+    for:
+      minutes: 1
+action:
+  - service: light.turn_off
+    data_template:
+      entity_id: light.hue_white_lamp_1_light

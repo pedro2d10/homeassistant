@@ -1,0 +1,40 @@
+esphome:
+  name: bureau_pir
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: "ASUS"
+  password: "trucmachinchose"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Bureau Pir Fallback Hotspot"
+    password: "HPXep04tfgHP"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "machin"
+
+ota:
+  password: "machin"
+  
+binary_sensor:
+  - platform: gpio
+    pin: D2
+    name: "PIR Sensor"
+    device_class: motion
+    
+sensor:
+  - platform: adc
+    pin: A0
+    name: "TEMT6000 Illuminance"
+    unit_of_measurement: lux
+    filters:
+      - lambda: |-
+          return (x / 10000.0) * 2000000.0;

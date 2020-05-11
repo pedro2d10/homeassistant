@@ -1,2 +1,3 @@
 automation: !include ../automations.yaml
-automation old: !include_dir_merge_list ../automation/
+automation old: !include_dir_merge_list ../automation_old/
+automation new: !include_dir_list ../automations

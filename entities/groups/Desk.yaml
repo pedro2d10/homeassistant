@@ -1,0 +1,4 @@
+Desk:
+  icon: mdi:lightbulb-outline
+  entities:
+    - light.hue_white_lamp_1_light

@@ -1,0 +1,4 @@
+platform: iphonedetect
+consider_home: 60
+hosts:
+  oxana_iphone: 192.168.1.115

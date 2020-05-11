@@ -13,3 +13,9 @@ lovelace:
       title: hidden
       show_in_sidebar: false
       filename: hidden.yaml
+    lovelace-test:
+      mode: yaml
+      filename: ../lovelace2.yaml
+      title: test
+      icon: mdi:test-tube
+      show_in_sidebar: true

@@ -275,3 +275,7 @@
   # icon: /local/tabs/medusa.png
   name: Medusa status
   value_template: "{{ value_json.status }}"
+
+- platform: version
+  name: version_available
+  source: hassio

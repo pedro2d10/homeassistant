@@ -1,0 +1,27 @@
+alias: "[System] corona new death"
+trigger:
+  - platform: state
+    entity_id: sensor.france_deaths
+
+action:
+  - service: persistent_notification.create
+    data_template:
+      title: "corona new death"
+      notification_id: corona-alert
+      message: >
+        {% macro corona_level() %}
+        {%- set old = trigger.from_state.state | int -%}
+        {%- set new = trigger.to_state.state | int -%}
+        {{ new - old }}
+        {% endmacro %}
+        Nouveau mort : {{ corona_level() }}
+  - service: notify.mobile_app_iphone_de_pierre
+    data_template:
+      title: " Nouveaux mort du corona"
+      message: >
+        {% macro corona_level() %}
+        {%- set old = trigger.from_state.state | int -%}
+        {%- set new = trigger.to_state.state | int -%}
+        {{ new - old }}
+        {% endmacro %}
+        Nombre de nouveau mort : {{ corona_level() }} et actuellement {{ trigger.from_state.state }} morts au total

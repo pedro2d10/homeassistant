@@ -1,98 +1,95 @@
-flash_room1:
-  alias: Flash Room1 On
-  sequence:
-    - alias: Light Room1 On
-      service: light.turn_on
-      data:
-        entity_id: light.entree
-    - delay:
-        # time for flash light on
-        seconds: 0.5
-    - alias: Light Room1 Off
-      service: light.turn_off
-      data:
-        entity_id: light.entree
-    - alias: loop_room1
-      service: homeassistant.turn_on
-      data:
-        entity_id: script.flash_loop
-        
-flash_loop:
-  alias: Flash loop
-  sequence:
-    - condition: state
-      entity_id: timer.flash
-      state: 'active'
-    - delay:
-        # time for flash light off
-        seconds: 0.5
-    - alias: loop_room1
-      service: homeassistant.turn_on
-      data:
-        entity_id: script.flash_room1
-        
+# flash_room1:
+#   alias: Flash Room1 On
+#   sequence:
+#     - alias: Light Room1 On
+#       service: light.turn_on
+#       data:
+#         entity_id: light.entree
+#     - delay:
+#         # time for flash light on
+#         seconds: 0.5
+#     - alias: Light Room1 Off
+#       service: light.turn_off
+#       data:
+#         entity_id: light.entree
+#     - alias: loop_room1
+#       service: homeassistant.turn_on
+#       data:
+#         entity_id: script.flash_loop
+
+# flash_loop:
+#   alias: Flash loop
+#   sequence:
+#     - condition: state
+#       entity_id: timer.flash
+#       state: 'active'
+#     - delay:
+#         # time for flash light off
+#         seconds: 0.5
+#     - alias: loop_room1
+#       service: homeassistant.turn_on
+#       data:
+#         entity_id: script.flash_room1
+
 start_youtube:
   sequence:
-  - service: androidtv.adb_command
-    data:
-      entity_id: media_player.sony_tv
-      command: "am start -a android.intent.action.VIEW -d -n com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.ShellActivity"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.sony_tv
+        command: "am start -a android.intent.action.VIEW -d -n com.google.android.youtube.tv/com.google.android.apps.youtube.tv.activity.ShellActivity"
 
 start_plex:
   sequence:
-  - service: androidtv.adb_command
-    data:
-      entity_id: media_player.sony_tv
-      command: "monkey -p com.plexapp.android -c android.intent.category.LAUNCHER 1"
-      #command: "am start -a android.intent.action.VIEW -d -n com.plexapp.android/com.plexapp.plex.activities.SplashActivity"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.sony_tv
+        command: "monkey -p com.plexapp.android -c android.intent.category.LAUNCHER 1"
+        #command: "am start -a android.intent.action.VIEW -d -n com.plexapp.android/com.plexapp.plex.activities.SplashActivity"
 
 start_steam:
   sequence:
-  - service: androidtv.adb_command
-    data:
-      entity_id: media_player.sony_tv
-      command: "am start -a android.intent.action.VIEW -d -n com.valvesoftware.steamlink/.SteamShellActivity"
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.sony_tv
+        command: "am start -a android.intent.action.VIEW -d -n com.valvesoftware.steamlink/.SteamShellActivity"
 
 start_kodi:
   sequence:
-  - service: androidtv.adb_command
-    data:
-      entity_id: media_player.sony_tv
-      command: "am start -a android.intent.action.VIEW -d -n org.xbmc.kodi/.Splash"
-
-
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.sony_tv
+        command: "am start -a android.intent.action.VIEW -d -n org.xbmc.kodi/.Splash"
 
 start_tv:
-  sequence:      
-  - service: androidtv.adb_command
-    data:
-      entity_id: media_player.androidtv_tv_living_room
-      command: "POWER"
+  sequence:
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.androidtv_tv_living_room
+        command: "POWER"
 
 tv_home:
-  sequence:      
-  - service: androidtv.adb_command
-    data:
-      entity_id: media_player.androidtv_tv_living_room
-      command: "HOME"
-
+  sequence:
+    - service: androidtv.adb_command
+      data:
+        entity_id: media_player.androidtv_tv_living_room
+        command: "HOME"
 
 dis_bonjour:
   sequence:
-  - service: tts.google_translate_say
-    entity_id: media_player.salon
-    data:
-      message: 'Bonjour toi!'
-      language: 'fr'
+    - service: tts.google_translate_say
+      entity_id: media_player.salon
+      data:
+        message: "Bonjour toi!"
+        language: "fr"
 
 spotify_salon:
   sequence:
-  - service: media_player.play_media
-    data:
-      entity_id: media_player.salon
-      media_content_id: spotify:user:spotify:playlist:37i9dQZF1DWUF3bcja4I8P
-      media_content_type: playlist
-      
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.salon
+        media_content_id: spotify:user:spotify:playlist:37i9dQZF1DWUF3bcja4I8P
+        media_content_type: playlist
+
 # startstop_openvpn:
 #   sequence:
 #     - condition: state
@@ -116,7 +113,7 @@ zigbee2mqtt_rename:
           "old": "{{ states.input_text.zigbee2mqtt_old_name.state | string }}",
           "new": "{{ states.input_text.zigbee2mqtt_new_name.state | string }}"
         }
-        
+
 zigbee2mqtt_remove:
   alias: Zigbee2mqtt Remove
   sequence:
@@ -124,3 +121,23 @@ zigbee2mqtt_remove:
     data_template:
       topic: zigbee2mqtt/bridge/config/remove
       payload_template: "{{ states.input_text.zigbee2mqtt_remove.state | string }}"
+# rhasspy_light_state:
+#   alias: change_light_state
+#   fields:
+#     light_name:
+#       description: "Light Entity"
+#       example: light.bulb_1
+#     light_state:
+#       description: "State to change the light to"
+#       example: on
+#   sequence:
+#     - service_template: >
+#         {% set this_state = light_state | string %}
+#         {% if this_state == 'allume' %}
+#           homeassistant.turn_on
+#         {%else %}
+#           homeassistant.turn_off
+#         {% endif %}
+
+#       data_template:
+#         entity_id: "{{ light_name }}"

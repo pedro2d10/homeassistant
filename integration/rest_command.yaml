@@ -1,0 +1,5 @@
+rest_command:
+  # tts:
+  #   url: http://192.168.1.5:12101/api/text-to-speech
+  #   method: POST
+  #   payload: "{{ payload_data }}"
